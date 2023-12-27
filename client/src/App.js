@@ -1,14 +1,11 @@
-import './App.css';
-import {BrowserRouter,Routes,Route} from "react-router-dom"
-import Register from './pages/register/register';
+import AllRoutes from "./components/allroutes/AllRoutes";
+
+
 function App() {
   return (
-    <div>
-      <Routes>
-        <Route path='/' element={<Register/> } />
-      </Routes>
-
-    </div>
+    <>
+      <AllRoutes/>
+    </>
   );
 }
 
