@@ -7,14 +7,14 @@ const router = express.Router();
 
 // Registration user
 router.post('/register', async (req, res) => {
-    const { name, email, password } = req.body;
+    const { username, password } = req.body;
     try {
-        const user = await RegisterModel.findOne({ email });
+        const user = await RegisterModel.findOne({ username });
 
         if (user) {
             res.json('Already registered');
         } else {
-            await RegisterModel.create({ name, email, password });
+            await RegisterModel.create({ username, password });
             res.json('Account created');
         }
     } catch (error) {
