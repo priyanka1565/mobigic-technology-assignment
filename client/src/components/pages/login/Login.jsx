@@ -28,7 +28,7 @@ const Login = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (email !== " " && password !== "") {
-            axios.post("http://localhost:5000/user/login", { username: email, password: password }).then((res) => {
+            axios.post("https://mobigicbackend.onrender.com/user/login", { username: email, password: password }).then((res) => {
                 if (res) {
                     toast.success(`${res?.data?.message}`)
                 }

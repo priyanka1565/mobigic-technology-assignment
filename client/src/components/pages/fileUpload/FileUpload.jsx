@@ -17,7 +17,7 @@ const FileUpload = () => {
         try {
             const formData = new FormData();
             formData.append('file', file);
-            const response = await axios.post('http://localhost:5000/user/upload-file', formData);
+            const response = await axios.post('https://mobigicbackend.onrender.com/user/upload-file', formData);
             if (response) {
                 toast.success(`${response?.data?.message}`)
             }
