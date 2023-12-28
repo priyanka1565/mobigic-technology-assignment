@@ -53,6 +53,9 @@ router.post('/login', async (req, res) => {
 let storage = multer.diskStorage({
     destination: function (req, file, cb) {
         let dest = 'uploads/tmp'
+        if (!fs.existsSync(dest)) {
+            fs.mkdirSync(dest, { recursive: true });
+        }
         fs.access(dest, function (error) {
             if (error) {
                 return fs.mkdir(dest, (error) => cb(error, dest));
