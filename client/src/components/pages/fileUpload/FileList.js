@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
-    Box, Table, Thead, Tbody, Tr, Th, Td, Heading, Card, Text, Flex, } from '@chakra-ui/react';
+    Box, Table, Thead, Tbody, Tr, Th, Td, Heading, Card, Text, Flex,Button } from '@chakra-ui/react';
 const FileList = () => {
     const [fileList, setFileList] = useState([]);
 
@@ -22,6 +22,23 @@ const FileList = () => {
             }
         } catch (error) {
             console.error('Error fetching file list:', error.message);
+        }
+    };
+
+    const handleRemoveFile = async (fileId) => {
+        try {
+            // Send a request to your server to remove the file
+            const response = await axios.delete(`http://localhost:5000/user/remove-file/${fileId}`);
+
+            if (response.data.status === 200) {
+                // Refresh the file list after successful removal
+                fetchFileList();
+                console.log('File removed successfully');
+            } else {
+                console.error(response.data.message);
+            }
+        } catch (error) {
+            console.error('Error removing file:', error.message);
         }
     };
 
@@ -47,6 +64,11 @@ const FileList = () => {
                                     <Flex align="center">
                                         <Text fontWeight="bold">{file.file_path}</Text>
                                     </Flex>
+                                </Td>
+                                <Td>
+                                    <Button colorScheme="red" size="sm" onClick={() => handleRemoveFile(file._id)}>
+                                        Remove
+                                    </Button>
                                 </Td>
                                 {/* Add more table cells based on your data structure */}
                             </Tr>

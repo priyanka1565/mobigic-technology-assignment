@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const RegisterModel = require("../models/userModel");
 const connectDataBase = require("../connection/database");
 const router = express.Router();
@@ -6,7 +7,7 @@ const path = require("path")
 const fs = require('fs');
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
-const file_storage = require("../models/file_schema")
+const file_storage = require("../models/file_schema");
 // require("dotenv").config()
 
 // Configure Cloudinary
@@ -109,6 +110,40 @@ router.post('/file-list', async (req, res) => {
         res.json(error);
     }
 })
+
+// Route to remove a file
+// Route to remove a file
+// Route to remove a file
+router.delete('/remove-file/:_id', async (req, res) => {
+    const fileId = req.params._id;
+    console.log(fileId)
+
+    try {
+        // Validate that fileId is a valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(fileId)) {
+            return res.status(400).json({ status: 400, message: 'Invalid file ID' });
+        }
+
+        // Find the file in the database
+        const file = await file_storage.findById(fileId);
+
+        if (!file) {
+            return res.status(404).json({ status: 404, message: 'File not found' });
+        }
+
+        // Perform any additional cleanup or file removal logic here
+
+        // Remove the file from the database
+        await file_storage.findOneAndDelete({ _id: fileId });
+
+        return res.json({ status: 200, message: 'File removed successfully' });
+    } catch (error) {
+        console.error('Error removing file:', error.message);
+        return res.status(500).json({ status: 500, message: 'Internal Server Error', error: error.message });
+    }
+});
+
+
 
 
 module.exports = router;
