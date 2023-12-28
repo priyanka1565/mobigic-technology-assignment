@@ -17,7 +17,8 @@ const FileUpload = () => {
             const formData = new FormData();
             formData.append('file', file);
 
-            const response = await axios.post('http://localhost:5000/upload', formData);
+            const response = await axios.post('http://localhost:5000/user/upload-file', formData);
+            console.log(response)
 
             if (response.data.success) {
                 console.log(response.data.message);

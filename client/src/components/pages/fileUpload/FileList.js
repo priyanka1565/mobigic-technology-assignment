@@ -1,7 +1,6 @@
-// FileList.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import { Box, Table, Thead, Tbody, Tr, Th, Td, Heading } from '@chakra-ui/react';
 const FileList = () => {
     const [fileList, setFileList] = useState([]);
 
@@ -12,7 +11,8 @@ const FileList = () => {
 
     const fetchFileList = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/file-list');
+            const response = await axios.post('http://localhost:5000/user/file-list');
+            console.log(response)
 
             if (response.data.status === 200) {
                 setFileList(response.data.data);
@@ -25,15 +25,29 @@ const FileList = () => {
     };
 
     return (
-        <div>
-            <h2>File List</h2>
-            <ul>
-                {fileList.map((file) => (
-                    <li key={file._id}>{file.fileName}</li>
-                    // Assuming 'fileName' is the property containing the file name in your MongoDB document
-                ))}
-            </ul>
-        </div>
+        <Box p="4" textAlign="center" overflowX="auto">
+            <Heading as="h2" mb="4" size="xl" color="teal.500">
+                File List
+            </Heading>
+            <Table variant="striped" colorScheme="teal" size="sm" borderWidth="1px" borderColor="teal.500">
+                <Thead>
+                    <Tr>
+                        <Th borderWidth="1px" borderColor="teal.500">ID</Th>
+                        <Th borderWidth="1px" borderColor="teal.500">File Name</Th>
+                        {/* Add more table headers based on your data structure */}
+                    </Tr>
+                </Thead>
+                <Tbody>
+                    {fileList.map((file) => (
+                        <Tr key={file._id}>
+                            <Td borderWidth="1px" borderColor="teal.500">{file._id}</Td>
+                            <Td borderWidth="1px" borderColor="teal.500">{file.file_path}</Td>
+                            {/* Add more table cells based on your data structure */}
+                        </Tr>
+                    ))}
+                </Tbody>
+            </Table>
+        </Box>
     );
 };
 

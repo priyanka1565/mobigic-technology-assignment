@@ -86,13 +86,13 @@ router.post('/upload-file', upload.single('file'), async (req, res) => {
             if (result) {
                 let obj = {
                     file_path: result?.secure_url,
-                    unique_id:randomNumber,
+                    unique_id: randomNumber,
                 }
                 const store_data = await file_storage.create(obj);
             }
             fs.unlinkSync(file_path);
         }
-        return res.json({data:[],message:"file uploaded successfully"})
+        return res.json({ data: [], message: "file uploaded successfully" })
     }
     catch (err) {
         return res.json({ data: [], message: err })
@@ -101,9 +101,9 @@ router.post('/upload-file', upload.single('file'), async (req, res) => {
 
 router.post('/file-list', async (req, res) => {
     try {
-        const list  = await file_storage.find().lean().exec();
+        const list = await file_storage.find().lean().exec();
         if (list) {
-            return res.json({status:200,message:"file list get successfully",data:list})
+            return res.json({ status: 200, message: "file list get successfully", data: list })
         }
     } catch (error) {
         res.json(error);
