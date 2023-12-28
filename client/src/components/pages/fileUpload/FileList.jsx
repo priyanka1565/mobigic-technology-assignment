@@ -17,7 +17,7 @@ const FileList = () => {
 
     const fetchFileList = async () => {
         try {
-            const response = await axios.post('https://mobigicbackend.onrender.com/user/file-list');
+            const response = await axios.post('https://backend-9mrw.onrender.com/user/file-list');
             console.log(response)
 
             if (response.data.status === 200) {
@@ -33,7 +33,7 @@ const FileList = () => {
     const handleRemoveFile = async (fileId) => {
         try {
             // Send a request to your server to remove the file
-            const response = await axios.delete(`https://mobigicbackend.onrender.com/remove-file/${fileId}`);
+            const response = await axios.delete(`https://backend-9mrw.onrender.com/user/remove-file/${fileId}`);
 
             if (response.data.status === 200) {
                 // Refresh the file list after successful removal
@@ -50,7 +50,7 @@ const FileList = () => {
     const handleDownload = async () => {
         try {
             if (code !== "" && code !== undefined) {
-                await axios.post("https://mobigicbackend.onrender.com/user/download", { code: code }).then((res) => {
+                await axios.post("https://backend-9mrw.onrender.com/user/download", { code: code }).then((res) => {
                     console.log(res?.data?.data?.length, "length")
                     console.log(res?.data.message)
                     if (res?.data?.data?.length > 0) {
