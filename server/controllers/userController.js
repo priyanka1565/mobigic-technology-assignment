@@ -83,7 +83,9 @@ router.post('/upload-file', upload.single('file'), async (req, res) => {
         const file_path = req?.file.destination + "/" + req?.file?.filename;
         if (file_path) {
             const result = await cloudinary.uploader.upload(file_path);
-            const randomNumber = Math.floor(Math.random() * 1000);
+            const min = 100000; // Minimum 6-digit number
+            const max = 999999;
+           const randomNumber=  Math.floor(Math.random() * (max - min + 1)) + min;
             if (result) {
                 let obj = {
                     file_path: result?.secure_url,
@@ -110,9 +112,6 @@ router.post('/file-list', async (req, res) => {
         res.json(error);
     }
 })
-
-// Route to remove a file
-// Route to remove a file
 // Route to remove a file
 router.delete('/remove-file/:_id', async (req, res) => {
     const fileId = req.params._id;
@@ -142,7 +141,28 @@ router.delete('/remove-file/:_id', async (req, res) => {
         return res.status(500).json({ status: 500, message: 'Internal Server Error', error: error.message });
     }
 });
+// Route to handle file download
 
+router.post('/download', async (req, res) => {
+    try {
+        const enteredCode = req.body.code;
+        console.log(enteredCode);
+
+
+        const enteredCodeuser = await file_storage.findOne({unique_id: enteredCode });
+    
+        if (enteredCodeuser) {
+            return res.json({ status: 200, message: 'File found successfully', data: [enteredCodeuser] });
+        } else {
+           return  res.json({ status: 200, message: 'File not found', data: [] });
+        }
+
+        // Validate that enteredCode is a six-digit code
+    } catch (error) {
+        console.error('Error:', error.message);
+        return res.status(500).json({ status: 500, message: 'Internal Server Error', error: error.message });
+    }
+});
 
 
 

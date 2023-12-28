@@ -33,7 +33,7 @@ const Login = () => {
                     toast.success(`${res?.data?.message}`)
                 }
             })
-            // navigate("/add-oem", { state: { password, email } })
+            navigate("/fileUpload")
         } else {
             // Invalid login credentials, display error message
             toast('Invalid credentials');
